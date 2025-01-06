@@ -1,0 +1,271 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Employee API",
+        "version": "1.0.0",
+        "description": "Employee API"
+    },
+    "components": {
+        "schemas": {
+            "CreateEmployee": {
+                "type": "object",
+                "properties": {
+                    "fullName": {
+                        "type": "string",
+                        "description": "Employee fullname",
+                        "example": "John Doe"
+                    },
+                    "role": {
+                        "type": "string",
+                        "description": "Role of the employee",
+                        "example": "FullStack",
+                        "enum": [
+                            "FullStack",
+                            "Frontend",
+                            "Backend"
+                        ]
+                    }
+                }
+            },
+            "Employee": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "format": "uuidv4",
+                        "description": "id of employee"
+                    },
+                    "fullName": {
+                        "type": "string",
+                        "description": "Employee fullname"
+                    },
+                    "role": {
+                        "type": "string",
+                        "description": "Role of the employee"
+                    }
+                },
+                "required": [
+                    "fullName",
+                    "role"
+                ]
+            },
+            "Filter": {
+                "type": "object",
+                "properties": {
+                    "fullName": {
+                        "type": "string",
+                        "description": "Filter by FullName",
+                        "example": "John Doe"
+                    },
+                    "isDeleted": {
+                        "type": "boolean",
+                        "description": "Filter by FullName",
+                        "example": false
+                    },
+                    "role": {
+                        "type": "string",
+                        "description": "Filter by Role",
+                        "example": "FullStack",
+                        "enum": [
+                            "Backend",
+                            "Frontend",
+                            "FullStack"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/employees": {
+            "get": {
+                "summary": "Get all employees and can add filter (optional)",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/Filter"
+                        },
+                        "description": "Filter option to find all Employee"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return list of employees",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Employee"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new employee",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateEmployee"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The created employee",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/employees/{id}": {
+            "get": {
+                "summary": "Get an employee by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the employee",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuidv4"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The employee",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an employee",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the employee",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuidv4"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateEmployee"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The updated employee",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Patch an employee (Update without Full Object)",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the employee",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuidv4"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateEmployee"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The updated employee",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an employee",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the employee",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Employee deleted successfully"
+                    },
+                    "404": {
+                        "description": "Employee not found"
+                    }
+                }
+            }
+        }
+    }
+}

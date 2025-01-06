@@ -1,0 +1,22 @@
+{
+  "name": "3-way-sum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node sum.ts",
+    "build": "tsc sum.test.ts sum.ts",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
+  },
+  "type": "module",
+  "dependencies": {
+    "typescript": "^5.7.2"
+  }
+}
